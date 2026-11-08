@@ -1,22 +1,13 @@
 #!/usr/bin/env bash
-# make_workspace.sh
-# Automates directory creation and logging.
-#
-# Usage:   ./make_workspace.sh <base_dir> <name1> [name2 ...]
-# Example: ./make_workspace.sh ~/lab project1 project2 project3
-#
-# For every <name> it creates <base_dir>/<name>/{src,docs,logs}
-# and records each action in <base_dir>/workspace.log
 
-# Stop on undefined variables (-u) and on failed pipelines (pipefail).
 set -uo pipefail
 
 # ---------- Variables ----------
-BASE_DIR="${1:-}"                       # first argument: where to build
-SUBDIRS=("src" "docs" "logs")           # array of subdirectories per project
-LOG_FILE=""                             # set once BASE_DIR is validated
-created=0                               # counter of directories created
-skipped=0                               # counter of directories already present
+BASE_DIR="${1:-}"                      
+SUBDIRS=("src" "docs" "logs")          
+LOG_FILE=""                            
+created=0                              
+skipped=0                              
 
 # ---------- Functions ----------
 # log: print a timestamped message to the screen and append it to the log file
