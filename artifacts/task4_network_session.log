@@ -1,0 +1,36 @@
+### TASK 4 (retry): troubleshooting missing network tools
+$ apt-get install -y iproute2 iputils-ping net-tools
+Building dependency tree...
+Reading state information...
+E: Unable to locate package iproute2
+E: Unable to locate package iputils-ping
+E: Unable to locate package net-tools
+
+$ ip addr
+bash: line 1: ip: command not found
+
+$ ss -tuln | head -6
+bash: line 1: ss: command not found
+
+$ netstat -tuln | head -4
+bash: line 1: netstat: command not found
+
+$ ping -c 3 127.0.0.1
+bash: line 1: ping: command not found
+
+--- fallbacks that need no extra packages ---
+$ hostname
+vm
+$ cat /proc/net/dev
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+  ifb0:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+  ifb1:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+  eth0:  322187     300    0    6    0     0          0         0   524992     305    0    0    0     0       0          0
+$ head -5 /proc/net/tcp
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode                                                     
+   0: 0100007F:89AF 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 2071 2 000000007b5943dc 100 0 0 10 0                      
+   1: 0100007F:8BE1 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 1201 1 000000003b976a97 100 0 0 10 0                      
+   2: 00000000:07E8 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 788 1 00000000bac6ecc4 100 0 0 10 0                       
+   3: 020200C0:9018 0A684FA0:01BB 01 00000000:00000000 02:00000432 00000000     0        0 823 2 00000000fb1545bf 20 4 28 17 -1                      

@@ -1,0 +1,114 @@
+### TASK 3: SYSTEM MONITORING AND ADMINISTRATION
+$ ps aux | head -8
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  1.4  0.0  24636  7328 ?        SLl  11:06   0:00 /process_api --firecracker-init --addr 0.0.0.0:2024 --max-ws-buffer-size 32768 --block-local-connections --control-vsock-port 5001 --listen-vsock-port 2024 --log-vsock-port 5002
+root         2  0.0  0.0      0     0 ?        S    11:06   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S    11:06   0:00 [pool_workqueue_release]
+root         4  0.0  0.0      0     0 ?        I<   11:06   0:00 [kworker/R-rcu_gp]
+root         5  0.0  0.0      0     0 ?        I<   11:06   0:00 [kworker/R-sync_wq]
+root         6  0.0  0.0      0     0 ?        I<   11:06   0:00 [kworker/R-kvfree_rcu_reclaim]
+root         7  0.0  0.0      0     0 ?        I<   11:06   0:00 [kworker/R-slub_flushwq]
+
+$ df -h | head -8
+Filesystem                                                         Size  Used Avail Use% Mounted on
+tmpfs                                                              7.9G     0  7.9G   0% /dev/shm
+/dev/vda                                                           252G   12G   31G  29% /
+/dev/vdc                                                           356M  323M   27M  93% /opt/claude-code
+/dev/vdd                                                            49M   32M   16M  68% /opt/env-runner
+model_tools_unavailable                                            4.0K     0  4.0K   0% /mnt/sandboxing/model_tools_env/v1/python
+tmpfs                                                              4.0G     0  4.0G   0% /sys/fs/cgroup
+tmpfs                                                              1.0M     0  1.0M   0% /run/sandbox-telemetry
+
+$ free -m
+               total        used        free      shared  buff/cache   available
+Mem:            8022         443        7557          15         237        7579
+Swap:              0           0           0
+
+$ uptime
+ 11:06:45 up 0 min,  0 user,  load average: 0.00, 0.00, 0.00
+
+$ top -b -n 1 | head -12
+top - 11:06:45 up 0 min,  0 user,  load average: 0.24, 0.05, 0.02
+Tasks:  65 total,   1 running,  64 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   8022.8 total,   7554.9 free,    445.5 used,    238.4 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   7577.2 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+    1 root      20   0   24636   7328   6812 S   0.0   0.1   0:00.66 process_a+
+    2 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kthreadd
+    3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_work+
+    4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R+
+    5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R+
+
+--- users/groups/permissions ---
+$ id
+uid=0(root) gid=0(root) groups=0(root)
+$ which sudo || echo 'sudo: not installed'
+/usr/bin/sudo
+$ groupadd labgroup
+$ useradd -m -G labgroup labuser
+$ id labuser
+uid=30033(labuser) gid=30033(labuser) groups=30033(labuser),30002(labgroup)
+$ getent group labgroup
+labgroup:x:30002:labuser
+$ touch lab_file.txt
+$ ls -l lab_file.txt
+-rw-r--r-- 1 root root 0 Nov  8 11:06 lab_file.txt
+$ chmod 640 lab_file.txt
+$ ls -l lab_file.txt
+-rw-r----- 1 root root 0 Nov  8 11:06 lab_file.txt
+$ chmod u+x,o-r lab_file.txt
+$ ls -l lab_file.txt
+-rwxr----- 1 root root 0 Nov  8 11:06 lab_file.txt
+$ chown labuser:labgroup lab_file.txt
+$ ls -l lab_file.txt
+-rwxr----- 1 labuser labgroup 0 Nov  8 11:06 lab_file.txt
+$ userdel -r labuser
+userdel: labuser mail spool (/var/mail/labuser) not found
+$ groupdel labgroup
+
+### TASK 4: NETWORKING
+$ ip addr
+bash: line 1: ip: command not found
+
+$ ss -tuln | head -8
+bash: line 1: ss: command not found
+
+$ netstat -tuln | head -5
+bash: line 1: netstat: command not found
+
+$ ping -c 3 127.0.0.1
+bash: line 1: ping: command not found
+
+$ ping -c 2 -W 2 8.8.8.8
+bash: line 1: ping: command not found
+
+### TASK 5: PIPES AND REDIRECTION
+$ echo first > out.txt; cat out.txt
+first
+$ echo second >> out.txt; cat out.txt
+first
+second
+$ ls /nonexistent 2> err.txt; cat err.txt
+ls: cannot access '/nonexistent': No such file or directory
+$ ls /nonexistent people.txt > both.txt 2>&1; cat both.txt
+ls: cannot access '/nonexistent': No such file or directory
+people.txt
+$ grep NY people.txt | sort -k2 -n
+alice 30 NY
+erin 30 NY
+carol 35 NY
+$ awk '{print $3}' people.txt | sort | uniq -c | sort -rn
+      3 NY
+      1 SF
+      1 LA
+$ awk '{s+=$2} END {print "avg age:", s/NR}' people.txt
+avg age: 29
+$ ps aux | awk '{print $1}' | sort | uniq -c | sort -rn | head -3
+     65 root
+      1 USER
+      1 64321
+$ cut -d' ' -f2 people.txt | sort -n | uniq -d
+25
+30

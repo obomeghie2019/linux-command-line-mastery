@@ -1,0 +1,16 @@
+2026-11-08 11:07:00 - START: building workspace in /tmp/demo_ws for 2 project(s)
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/alpha/src
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/alpha/docs
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/alpha/logs
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/beta/src
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/beta/docs
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/beta/logs
+2026-11-08 11:07:00 - DONE: 6 created, 0 skipped
+2026-11-08 11:07:00 - START: building workspace in /tmp/demo_ws for 2 project(s)
+2026-11-08 11:07:00 - SKIP: /tmp/demo_ws/alpha/src already exists
+2026-11-08 11:07:00 - SKIP: /tmp/demo_ws/alpha/docs already exists
+2026-11-08 11:07:00 - SKIP: /tmp/demo_ws/alpha/logs already exists
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/gamma/src
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/gamma/docs
+2026-11-08 11:07:00 - CREATED: /tmp/demo_ws/gamma/logs
+2026-11-08 11:07:00 - DONE: 3 created, 3 skipped

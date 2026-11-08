@@ -1,0 +1,81 @@
+### TASK 1: FILE MANAGEMENT
+$ mkdir -p project/{src,docs,logs}
+$ touch project/src/a.txt project/src/b.txt
+$ echo -e "alpha\nbeta ERROR\ngamma\ndelta ERROR\nepsilon" > project/src/a.txt
+$ cp project/src/a.txt project/docs/a_copy.txt
+$ mv project/src/b.txt project/src/renamed_b.txt
+$ ls -R project
+project:
+docs
+logs
+src
+
+project/docs:
+a_copy.txt
+
+project/logs:
+
+project/src:
+a.txt
+renamed_b.txt
+$ cat project/src/a.txt
+alpha
+beta ERROR
+gamma
+delta ERROR
+epsilon
+$ head -n 2 project/src/a.txt
+alpha
+beta ERROR
+$ tail -n 2 project/src/a.txt
+delta ERROR
+epsilon
+$ grep -n ERROR project/src/a.txt
+2:beta ERROR
+4:delta ERROR
+$ find project -name "*.txt"
+project/src/renamed_b.txt
+project/src/a.txt
+project/docs/a_copy.txt
+$ rm project/docs/a_copy.txt
+$ rm -r project/logs
+$ ls -R project
+project:
+docs
+src
+
+project/docs:
+
+project/src:
+a.txt
+renamed_b.txt
+$ rm -i project/src/renamed_b.txt  (answering y)
+rm: remove regular empty file 'project/src/renamed_b.txt'? 
+### TASK 2: DIRECTORY NAVIGATION
+$ pwd
+/tmp/lab
+$ mkdir -p a/b/c/d
+$ cd a/b/c   (relative)
+/tmp/lab/a/b/c
+$ cd /etc    (absolute)
+/etc
+$ ls /etc | head -5
+ImageMagick-6
+LatexMk
+PackageKit
+X11
+adduser.conf
+$ ls /var
+backups
+cache
+lib
+local
+lock
+log
+mail
+opt
+run
+spool
+tmp
+$ ls -ld /tmp
+drwxrwxrwt 11 root root 4096 Nov  8 11:06 /tmp
